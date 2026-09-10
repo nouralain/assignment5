@@ -2,9 +2,9 @@ import emailValidation from "../../common/validators/email.validator.js"
 import checkNameLength from "../../common/validators/name.validator.js"
 import checkPasswordLength from "../../common/validators/password.validator.js"
 import jwt from "jsonwebtoken"
-import { update } from "./user.repo.js";
+import { findUserByIdNoRole, update } from "./user.repo.js";
 import { JWT_SECRET } from "../../config.js";
-import { findUserByEmail, findUserById } from "../../common/repo/user.repo.js";
+import { findUserByEmail } from "../../common/repo/user.repo.js";
 
 export const updateService =async(id,name,email,password,age,role)=>{
 
@@ -46,7 +46,7 @@ export const getUserById = async(id)=>{
         if(isNaN(id))throw new Error("Wrong id format",{cause:{status:400}})
 
     if(!id)throw new Error("No id provided",{cause:{status:400}})
-    const isExisted =await findUserById(id)
+    const isExisted =await findUserByIdNoRole(id)
 if(!isExisted)throw new Error("No user found",{cause:{status:404}})
     const {name,email,createdAt,updatedAt}=isExisted
 return {id,name,email,createdAt,updatedAt}

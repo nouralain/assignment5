@@ -41,8 +41,10 @@ model Post {
   userId    Int      @map("user_id")
   author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments Comment[]
+  isActive Boolean @default(true)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  @@index([isActive])
   @@map("posts")
 }
 
@@ -55,6 +57,7 @@ model Comment {
   author User? @relation(fields: [userId],references: [id],onDelete: SetNull)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  @@index([postId, userId])
   @@map("comments")
 }
 

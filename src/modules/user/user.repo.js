@@ -7,3 +7,7 @@ export const update = async(id,data)=>{
         select:{name:true,email:true,role:true}
     })
 }
+
+export const findUserByIdNoRole =async (id)=>{
+return await prisma.user.findUnique({where:{id},omit:{role:false}})
+}
